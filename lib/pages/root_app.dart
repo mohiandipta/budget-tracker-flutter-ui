@@ -1,6 +1,5 @@
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
-import 'package:budget_tracker/theme/colors.dart';
+import 'package:budget_tracker/pages/daily_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
@@ -10,7 +9,8 @@ class RootApp extends StatefulWidget {
 }
 
 class _RootAppState extends State<RootApp> {
-  get primary => Color.fromRGBO(220, 20, 60, 10);
+  get primary => Color.fromRGBO(4, 93, 86, 10);
+  get secondary => Color.fromRGBO(83, 205, 132, 10);
 
   int pageIndex = 0;
 
@@ -20,7 +20,7 @@ class _RootAppState extends State<RootApp> {
       body: getBody(),
       bottomNavigationBar: getFooter(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => {},
+        onPressed: () => {setTabs(4)},
         child: Icon(
           Icons.add,
           size: 25,
@@ -31,8 +31,29 @@ class _RootAppState extends State<RootApp> {
     );
   }
 
-  getBody() {}
+  // main body
+  getBody() {
+    return IndexedStack(
+      index: pageIndex,
+      children: [
+        DailyPage(),
+        Center(
+          child: Text("Stats Page"),
+        ),
+        Center(
+          child: Text("Wallet Page"),
+        ),
+        Center(
+          child: Text("Profile Page"),
+        ),
+        Center(
+          child: Text("Create budget Page"),
+        ),
+      ],
+    );
+  }
 
+  // footer Animated Bottom navigation bar
   Widget getFooter() {
     List<IconData> iconItems = [
       Ionicons.calendar,
@@ -47,6 +68,9 @@ class _RootAppState extends State<RootApp> {
         inactiveColor: secondary,
         activeIndex: pageIndex,
         gapLocation: GapLocation.center,
+        leftCornerRadius: 20,
+        rightCornerRadius: 20,
+        iconSize: 25,
         onTap: (index) {
           setTabs(index);
         });
